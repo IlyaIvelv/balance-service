@@ -5,7 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <include file="001-init-schema.sql" relativeToChangelogFile="true"/>
-    <include file="changes/002-add-initial-balance.xml" relativeToChangelogFile="true"/>
-    <include file="changes/003-make-date-of-birth-nullable.xml" relativeToChangelogFile="true"/>
+    <changeSet id="003" author="ilya">
+        <modifyDataType
+                tableName="user"
+                columnName="date_of_birth"
+                newDataType="DATE"/>
+        <dropNotNullConstraint
+                tableName="user"
+                columnName="date_of_birth"
+                columnDataType="DATE"/>
+    </changeSet>
 </databaseChangeLog>

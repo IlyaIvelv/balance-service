@@ -49,6 +49,16 @@
         <!-- lombok -->
         <dependency><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><scope>provided</scope></dependency>
 
+        <!-- liquibase -->
+        <dependency><groupId>org.jooq</groupId><artifactId>jooq-meta-extensions-liquibase</artifactId><version>${jooq.version}</version><scope>provided</scope></dependency>
+
+        <!-- Swagger UI + OpenAPI 3 -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-security</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
         <!-- Tests -->
         <dependency><groupId>org.testcontainers</groupId><artifactId>postgresql</artifactId><version>${testcontainers.version}</version><scope>test</scope></dependency>
         <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
@@ -65,14 +75,27 @@
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
                 <version>${jooq.version}</version>
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>generate</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
+
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>42.6.0</version>
+                    </dependency>
+                </dependencies>
+
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                    </execution>
+                </executions>
+
                 <configuration>
+<!--                    <skip>true</skip> &lt;!&ndash; Пропускать генерацию при сборке &ndash;&gt;-->
+                    <!-- Прямое подключение к БД -->
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
                         <url>jdbc:postgresql://localhost:5432/balance_db</url>
@@ -81,15 +104,39 @@
                     </jdbc>
                     <generator>
                         <database>
+                            <!-- Стандартный класс для Open Source Edition -->
+                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
                             <inputSchema>public</inputSchema>
+                            <excludes>flyway_schema_history|liquibase.*</excludes>
                         </database>
                         <target>
                             <packageName>com.balanceservice.dao.generated</packageName>
-                            <directory>target/generated-sources/jooq</directory>
+                            <directory>src/main/java</directory>
                         </target>
+                        <generate>
+                            <pojos>true</pojos>
+                            <daos>false</daos>
+                        </generate>
                     </generator>
                 </configuration>
             </plugin>
+
+
+
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.9.1</version>
+                <configuration>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://localhost:5432/balance_db</url>
+                    <username>postgres</username>
+                    <password>postgres</password>
+                    <changeLogFile>db/changelog/db.changelog-master.xml</changeLogFile>
+<!--                    <secureParsing>false</secureParsing>-->
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
