@@ -24,7 +24,17 @@
         <jjwt.version>0.11.5</jjwt.version>
         <testcontainers.version>1.19.0</testcontainers.version>
         <jacoco.version>0.8.11</jacoco.version>
+        <jooq.skip>false</jooq.skip>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>ci</id>
+            <properties>
+                <jooq.skip>true</jooq.skip>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- Web & Validation -->
@@ -185,6 +195,7 @@
                 </executions>
 
                 <configuration>
+                    <skip>${jooq.skip}</skip>
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
                         <url>jdbc:postgresql://localhost:5432/balance_db</url>
@@ -254,13 +265,6 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>ci</id>
-            <properties>
-                <jooq.skip>true</jooq.skip>
-            </properties>
-        </profile>
-    </profiles>
+
 
 </project>
