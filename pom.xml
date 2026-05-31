@@ -18,6 +18,8 @@
 
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <jooq.version>3.16.18</jooq.version>
         <jjwt.version>0.11.5</jjwt.version>
         <testcontainers.version>1.19.0</testcontainers.version>
@@ -94,7 +96,7 @@
                 </executions>
 
                 <configuration>
-<!--                    <skip>true</skip> &lt;!&ndash; Пропускать генерацию при сборке &ndash;&gt;-->
+<!--                    <skip>true</skip>-->
                     <!-- Прямое подключение к БД -->
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
