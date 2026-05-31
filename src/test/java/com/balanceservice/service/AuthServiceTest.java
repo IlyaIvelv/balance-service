@@ -118,6 +118,7 @@ class AuthServiceTest {
         loginDto.setEmail("nonexistent@example.com");
         loginDto.setPassword("password123");
 
+
         when(userRepository.findIdByCredentials("nonexistent@example.com", null))
                 .thenReturn(null);
 
