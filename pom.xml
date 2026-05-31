@@ -253,4 +253,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>ci</id>
+            <properties>
+                <jooq.skip>true</jooq.skip>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>
