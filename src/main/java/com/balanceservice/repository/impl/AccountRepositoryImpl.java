@@ -9,11 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
-import static com.balanceservice.dao.generated.Tables.*;
+import static com.balanceservice.dao.generated.Tables.ACCOUNT;
 import static org.jooq.impl.DSL.least;
 
 @Repository
 @RequiredArgsConstructor
+@SuppressWarnings("resource")
 public class AccountRepositoryImpl implements AccountRepository {
     private final DSLContext dsl;
 

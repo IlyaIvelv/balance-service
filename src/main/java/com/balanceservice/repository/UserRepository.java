@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserRepository {
     Long findIdByCredentials(String email, String phone);
+
     String getPasswordById(Long userId);
+
     Page<UserDto> search(UserSearchDto filters, Pageable pageable);
 }

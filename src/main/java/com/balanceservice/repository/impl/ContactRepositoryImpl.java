@@ -11,11 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.jooq.impl.DSL.*;
-import static com.balanceservice.dao.generated.Tables.*;
+import static com.balanceservice.dao.generated.Tables.EMAIL_DATA;
+import static com.balanceservice.dao.generated.Tables.PHONE_DATA;
+import static org.jooq.impl.DSL.selectOne;
 
 @Repository
 @RequiredArgsConstructor
+@SuppressWarnings("resource")
 public class ContactRepositoryImpl implements ContactRepository {
     private final DSLContext dsl;
 
@@ -47,8 +49,6 @@ public class ContactRepositoryImpl implements ContactRepository {
                 dsl.insertInto(PHONE_DATA).columns(PHONE_DATA.USER_ID, PHONE_DATA.PHONE).values(userId, dto.getPhone()).execute();
             }
         }
-        // Упрощённая логика: добавление. Удаление/замена реализуется аналогично через DELETE/UPDATE.
-        // Возвращаем обновлённого юзера (заглушка маппинга)
         return new UserDto(userId, "Updated User", null, null, List.of(), List.of());
     }
 }

@@ -10,6 +10,8 @@ import java.lang.annotation.*;
 @Documented
 public @interface PhoneFormat {
     String message() default "Phone must match format: 79207865432";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

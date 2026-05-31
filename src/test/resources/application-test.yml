@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/balance_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jooq:
+    sql-dialect: POSTGRES
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: c3VwZXItc2VjcmV0LWtleS1mb3ItdGVzdHMtb25seS1hbmQtbG9uZy1lbm91Z2gtZm9yLWhzNTEy
+  expiration-ms: 3600000
+
+logging:
+  level:
+    com.balanceservice: DEBUG
+    org.jooq: DEBUG

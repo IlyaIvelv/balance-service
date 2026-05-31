@@ -14,16 +14,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.balanceservice.dao.generated.Tables.*;
-import static org.jooq.impl.DSL.*;
+import static org.jooq.impl.DSL.selectOne;
+import static org.jooq.impl.DSL.trueCondition;
 
 @Repository
 @RequiredArgsConstructor
+@SuppressWarnings("resource")
 public class UserRepositoryImpl implements UserRepository {
     private final DSLContext dsl;
 
     @Override
     public Long findIdByCredentials(String email, String phone) {
-        // Ищем userId по email или phone в соответствующих таблицах
         if (email != null) {
             Long id = dsl.select(EMAIL_DATA.USER_ID)
                     .from(EMAIL_DATA)
@@ -60,7 +61,6 @@ public class UserRepositoryImpl implements UserRepository {
         if (filters.getName() != null)
             q = q.and(USER.NAME.likeIgnoreCase(filters.getName() + "%"));
 
-        // Фильтры по email/phone через EXISTS в отдельных таблицах
         if (filters.getEmail() != null)
             q = q.andExists(selectOne()
                     .from(EMAIL_DATA)
